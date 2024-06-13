@@ -14,14 +14,19 @@ namespace RuntimeSceneGizmo
 #pragma warning restore 0649
 
 		private Camera mainCamera;
-		private Transform mainCamParent;
+
+		public Transform transformToModify;
 
 		private IEnumerator cameraRotateCoroutine, projectionChangeCoroutine;
 
 		private void Awake()
 		{
 			mainCamera = Camera.main;
-			mainCamParent = mainCamera.transform.parent;
+
+			if (transformToModify == null)
+			{
+				transformToModify = mainCamera.transform.parent;
+			}
 		}
 
 		private void OnDisable()
@@ -99,13 +104,13 @@ namespace RuntimeSceneGizmo
 
 		private IEnumerator SetCameraRotation( Vector3 targetForward )
 		{
-			Quaternion initialRotation = mainCamParent.localRotation;
+			Quaternion initialRotation = transformToModify.localRotation;
 			Quaternion targetRotation;
 			if( Mathf.Abs( targetForward.y ) < 0.99f )
 				targetRotation = Quaternion.LookRotation( targetForward );
 			else
 			{
-				Vector3 cameraForward = mainCamParent.forward;
+				Vector3 cameraForward = transformToModify.forward;
 				if( cameraForward.x == 0f && cameraForward.z == 0f )
 					cameraForward.y = 1f;
 				else if( Mathf.Abs( cameraForward.x ) > Mathf.Abs( cameraForward.z ) )
@@ -129,11 +134,11 @@ namespace RuntimeSceneGizmo
 
 			for( float t = 0f; t < 1f; t += Time.unscaledDeltaTime * cameraAdjustmentSpeed )
 			{
-				mainCamParent.localRotation = Quaternion.LerpUnclamped( initialRotation, targetRotation, t );
+				transformToModify.localRotation = Quaternion.LerpUnclamped( initialRotation, targetRotation, t );
 				yield return null;
 			}
 
-			mainCamParent.localRotation = targetRotation;
+			transformToModify.localRotation = targetRotation;
 			cameraRotateCoroutine = null;
 		}
 	}
