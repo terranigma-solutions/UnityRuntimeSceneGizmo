@@ -56,8 +56,6 @@ namespace RuntimeSceneGizmo
 
 		public void SwitchOrthographicMode()
 		{
-			if (!enabled) return;
-			
 			if( projectionChangeCoroutine != null )
 				return;
 
@@ -67,8 +65,6 @@ namespace RuntimeSceneGizmo
 
 		public void RotateCameraInDirection( Vector3 direction )
 		{
-			if (!enabled) return;
-			
 			if( cameraRotateCoroutine != null )
 				return;
 
