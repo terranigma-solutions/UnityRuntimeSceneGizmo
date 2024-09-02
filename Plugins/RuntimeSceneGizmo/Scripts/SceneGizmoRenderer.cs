@@ -24,10 +24,10 @@ namespace RuntimeSceneGizmo
 
 		[SerializeField]
 		private SceneGizmoController controller;
-
-		[SerializeField]
+		
 		[Tooltip( "Should gizmo's hovered components turn yellow" )]
-		private bool highlightHoveredComponents = true;
+		public bool highlightHoveredComponents = true;
+		
 		private PointerEventData hoveringPointer;
 
 		[SerializeField]
